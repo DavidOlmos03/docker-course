@@ -1,0 +1,30 @@
+# Version de docker
+version : '3'
+
+services:
+  # Nombre del servicio
+  db:
+    container_name: postgres_database
+    image: postgres:15.1
+    volumes:
+      - postgres-db:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_PASSWORD = 123456
+
+
+  pgAdmin:
+    # pgAdmin depende del servicio db
+    depends_on:
+      - db
+    image: dpage/pgadmin4:6.17
+    ports:
+      - 8080:80
+    # Variables de entorno para acceder a pgadmin
+    environment:
+      - PGADMIN_DEFAULT_PASSWORD=123456 
+      - PGADMIN_DEFAULT_EMAIL=superman@google.com 
+
+volumes:
+  postgres-db:
+    # Esto le dice a docker que el volumen ya existe
+    external: true
