@@ -22,7 +22,22 @@ services:
       ME_CONFIG_MONGODB_SERVER: ${MONGO_DB_NAME}
     ports:
       - 8080:8081
+    # El restart: always
+    # Este parámetro es útil para asegurar que los servicios críticos permanezcan activos y se recuperen automáticamente de fallos o reinicios del sistema.
     restart: always  
+  
+  poke-app:
+    depends_on:
+      - db
+      - mongo-express
+    image: klerith/pokemon-nest-app:1.0.0
+    ports:
+      - 3000:3000
+    environment:
+      MONGODB: mongodb://${MONGO_USERNAME}:${MONGO_PASSWORD}@${MONGO_DB_NAME}:27018
+      DB_NAME: ${MONGO_DB_NAME}
+    restart: always
+    
 volumes:
   poke-vol:
     external: false
