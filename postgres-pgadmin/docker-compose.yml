@@ -21,6 +21,7 @@ services:
     ports:
       - 8080:80
     volumes:
+      # Para investigar esto, busco la palabara volume
       - ./pgadmin:/var/lib/pgadmin
     # Variables de entorno para acceder a pgadmin
     environment:
